@@ -9,14 +9,14 @@ class Memory:  # size = size of memory, fill = initial value of each memory bloc
         print("LOADING PROCESS...")
         for i in range(process.size):
             print(f"Current block: memory[{i + process.start}] = {self.array[i+process.start]}")
-            self.array[i + process.start] += 1
+            self.array[i + process.start] = process.name
             print(f"    -> memory[{i + process.start}] = {self.array[i+process.start]}")
             
     def deallocate(self, process):
         print(f"DEALLOCATING PROCESS: {process.name}")
         for i in range(process.size):
             print(f"Current block: memory[{i + process.start}] = {self.array[i+process.start]}")
-            self.array[i + process.start] -= 1
+            self.array[i + process.start] = 0
             print(f"    -> memory[{i + process.start}] = {self.array[i+process.start]}")
 
     # Checks for an available spot in the memory and fills it up 
@@ -30,7 +30,7 @@ class Memory:  # size = size of memory, fill = initial value of each memory bloc
         else:  # check if target section is free
             for address in range(process.start,target_end):  # address is the index and block is the value inside that index
                 if self.array[address] != 0:
-                    print(f"{self}[{address}] = {block}  // OCCUPIED !") #!add return
+                    print(f"{self}[{address}] = {self.array[address]}  // OCCUPIED !") #!add return
                     return 1
             else:
                 print("Can allocate blocks")
