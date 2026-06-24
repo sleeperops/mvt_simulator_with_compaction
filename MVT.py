@@ -47,8 +47,9 @@ class Memory:  # size = size of memory, fill = initial value of each memory bloc
         self.compact()
 
     # allocate a section of memory for a specific process
-    def allocate(self, process, process_start):  #!put the start parameter here
+    def allocate(self, process):  #!put the start parameter here
         print(f"ALLOCATING PROCESS: {process.name}")
+        process_start = (self.array).index(0)
         target_end= process_start + process.size
         if target_end > self.size:  #Either process is too big or external fragmentation
             print("cannot be")  # process too big
@@ -69,8 +70,7 @@ class Memory:  # size = size of memory, fill = initial value of each memory bloc
                 
     
 class Process:
-    def __init__(self, name, size, start = 0):
+    def __init__(self, name, size):
         self.name = name
         self.size = size
-        self.start = start  # what part of the memory the process willbe inserted
 
