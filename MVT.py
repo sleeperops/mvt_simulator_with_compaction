@@ -24,12 +24,15 @@ class Memory:  # size = size of memory, fill = initial value of each memory bloc
             self.array[i + process_start] = process.name
             print(f"    -> memory[{i + process_start}] = {self.array[i+process_start]}")
             
-    def deallocate(self, process, process_start):
+    def deallocate(self, process):
         print(f"DEALLOCATING PROCESS: {process.name}")
+        new_process_start = (self.array).index(process.name)  # gets the new starting position of the process post compaction
         for i in range(process.size):
-            print(f"Current block: memory[{i + process_start}] = {self.array[i+process_start]}")
-            self.array[i + process_start] = 0
-            print(f"    -> memory[{i + process_start}] = {self.array[i+process_start]}")
+            print(f"Current block: memory[{i + new_process_start}] = {self.array[i + new_process_start]}")
+            self.array[i + new_process_start] = 0
+            print(f"    -> memory[{i + new_process_start}] = {self.array[i + new_process_start]}")
+        
+        self.compact()
 
     # allocate a section of memory for a specific process
     def allocate(self, process, process_start):  #!put the start parameter here
@@ -89,17 +92,17 @@ Details.display_memory(memory_1)
 print(f"Remaining memory slots:{Details.display_remaining(memory_1)} ")
 
 print("DEALLOCATING P1")
-memory_1.deallocate(p1, 0)
+memory_1.deallocate(p1)
 Details.display_memory(memory_1)
 print(f"Remaining memory slots:{Details.display_remaining(memory_1)} ")
 
 print("DEALLOCATING P2")
-memory_1.deallocate(p2,5)
+memory_1.deallocate(p2)
 Details.display_memory(memory_1)
 print(f"Remaining memory slots:{Details.display_remaining(memory_1)} ")
 
 print("DEALLOCATING P3")
-memory_1.deallocate(p3,16)
+memory_1.deallocate(p3)
 Details.display_memory(memory_1)
 print(f"Remaining memory slots:{Details.display_remaining(memory_1)} ")
 
