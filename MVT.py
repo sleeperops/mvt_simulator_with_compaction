@@ -3,6 +3,18 @@ class Memory:  # size = size of memory, fill = initial value of each memory bloc
         self.size = size
         self.fill = fill
         self.array = [fill] * size
+        self.free_space = self.display_remaining()
+        
+    def display_memory(memory):
+        for address, block in enumerate(memory.array):
+            print(f"memory[{address}] = {block}")
+    
+    def display_remaining(memory):
+        count = 0
+        for i in memory.array:
+            if i == 0:
+                count +=1
+        return count
     
     def compact(self):
         compacted_result = []
@@ -63,20 +75,7 @@ class Process:
         self.start = start  # what part of the memory the process willbe inserted
 
 # For testing purposes
-class Details: 
-    
-    def display_memory(memory):
-        for address, block in enumerate(memory.array):
-            print(f"memory[{address}] = {block}")
-    
-    def display_remaining(memory):
-        count = 0
-        for i in memory.array:
-            if i == 0:
-                count +=1
-        return count
-
-        
+      
 memory_1 = Memory(32, 0) # 0-31, !Make 32 a variable
 p1 = Process("A",4)
 p2 = Process("B", 10)
@@ -88,24 +87,23 @@ memory_1.allocate(p1,0)
 memory_1.allocate(p2,5)
 memory_1.allocate(p3,16)
 
-Details.display_memory(memory_1)
-print(f"Remaining memory slots:{Details.display_remaining(memory_1)} ")
+memory_1.display_memory()
+print(f"Remaining memory slots:{memory_1.free_space} ")
 
 print("DEALLOCATING P1")
 memory_1.deallocate(p1)
-Details.display_memory(memory_1)
-print(f"Remaining memory slots:{Details.display_remaining(memory_1)} ")
+memory_1.display_memory()
+print(f"Remaining memory slots:{memory_1.free_space} ")
 
 print("DEALLOCATING P2")
 memory_1.deallocate(p2)
-Details.display_memory(memory_1)
-print(f"Remaining memory slots:{Details.display_remaining(memory_1)} ")
+memory_1.display_memory()
+print(f"Remaining memory slots:{memory_1.free_space} ")
 
 print("DEALLOCATING P3")
 memory_1.deallocate(p3)
-Details.display_memory(memory_1)
-print(f"Remaining memory slots:{Details.display_remaining(memory_1)} ")
-
+memory_1.display_memory()
+print(f"Remaining memory slots:{memory_1.free_space} ")
 
 
 print("Done")
