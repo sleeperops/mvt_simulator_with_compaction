@@ -9,30 +9,31 @@ class Process:
         self.size = size
         self.start = start
     
-    def load(memory, process):
-        blocks_to_occupy= process.start + process.size
-        if blocks_to_occupy > memory.size:  #Either process is too big or external fragmentation
-            return "cannot be"  # process too big
-        else:  # check if the blocks to be occupied are free
-            for block in memory.array:
-                if memory.array[block] == 0:
-                    print("OK")
-                elif memory.array[block] == 1:
-                    print("Occupied")
-                    break
-                else:
-                    print("Occupied with unknown value")
-                    break
-            else:
-                print("Can load blocks")
-                return "Memory section is available"
+def load(memory, process):
+    target_section= process.start + process.size
+    if target_section > memory.size:  #Either process is too big or external fragmentation
+        return "cannot be"  # process too big
+    
+    else:  # check if target section is free
+        for address, block in enumerate(memory.array):  # address is the index and block is the value inside that index
+            if block == 0:
+                print(f"{memory}[{address}] = {block}  // OK")
+                
+            elif block != 0:
+                print(f"{memory}[{address}] = {block}  // OCCUPIED !")
+                break
+        else:
+            print("Can load blocks")
+            return "Memory section is available"
                 
                 
         
-memory_1 = Memory(32, 0) # !Make 32 a variable
+memory_1 = Memory(32, 0) # 0-31, !Make 32 a variable
 p1 = Process("A", 16, 0)
 
-print(Process.load(memory_1, p1))
-print(memory_1.array[0])
+memory_1.array[4] = 1
 
+print(load(memory_1, p1))
+print(memory_1.array[0])
+print(memory_1.array[4])
 
