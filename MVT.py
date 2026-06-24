@@ -8,10 +8,11 @@ class Process:
         self.name = name
         self.size = size
         self.start = start
-    
+
+# checks if memory section is available 
 def load(memory, process):
-    target_section= process.start + process.size
-    if target_section > memory.size:  #Either process is too big or external fragmentation
+    target_end= process.start + process.size
+    if target_end > memory.size:  #Either process is too big or external fragmentation
         return "cannot be"  # process too big
     
     else:  # check if target section is free
@@ -24,8 +25,15 @@ def load(memory, process):
                 break
         else:
             print("Can load blocks")
-            return "Memory section is available"
-                
+            print("Memory section is available")
+            
+            # transfer
+def transfer(memory, process, target_start, target_end):
+    for i in range(process.size):
+        memory.array[i + target_start] += 1
+        
+    
+
                 
         
 memory_1 = Memory(32, 0) # 0-31, !Make 32 a variable
