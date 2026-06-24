@@ -6,29 +6,30 @@ class Memory:  # size = size of memory, fill = initial value of each memory bloc
     
     # loads the contents of the process into memory
     def load(self, process):
-        print("load in progress...")
+        print("LOADING PROCESS...")
         for i in range(process.size):
-            print(f"Current block: memory[{i}] = {self.array[i+process.start]}")
+            print(f"Current block: memory[{i + process.start}] = {self.array[i+process.start]}")
             self.array[i + process.start] += 1
-            print(f"    -> memory[{i}] = {self.array[i+process.start]}")
+            print(f"    -> memory[{i + process.start}] = {self.array[i+process.start]}")
             
     def deallocate(self, process):
-        print("deallocate in progress...")
+        print(f"DEALLOCATING PROCESS: {process.name}")
         for i in range(process.size):
             print(f"Current block: memory[{i + process.start}] = {self.array[i+process.start]}")
             self.array[i + process.start] -= 1
-            print(f"    -> memory[{i}] = {self.array[i+process.start]}")
+            print(f"    -> memory[{i + process.start}] = {self.array[i+process.start]}")
 
     # Checks for an available spot in the memory and fills it up 
-    def allocate(self, process):  #!put the start parameter here 
+    def allocate(self, process):  #!put the start parameter here
+        print(f"ALLOCATING PROCESS: {process.name}")
         target_end= process.start + process.size
         if target_end > self.size:  #Either process is too big or external fragmentation
             print("cannot be")  # process too big
             return 1
         
         else:  # check if target section is free
-            for address, block in enumerate(self.array[process.start:]):  # address is the index and block is the value inside that index
-                if block != 0:
+            for address in range(process.start,target_end):  # address is the index and block is the value inside that index
+                if self.array[address] != 0:
                     print(f"{self}[{address}] = {block}  // OCCUPIED !") #!add return
                     return 1
             else:
@@ -59,17 +60,35 @@ class Details:
         return count
         
 memory_1 = Memory(32, 0) # 0-31, !Make 32 a variable
-p1 = Process("A",16 , 0)
+p1 = Process("A",4 , 2)
 p2 = Process("B", 10, 10)
+p3 = Process("C", 10, 21)
 
 memory_1.array[4] = 0
 
 memory_1.allocate(p1)
+memory_1.allocate(p2)
+memory_1.allocate(p3)
 
 Details.display_memory(memory_1)
 print(f"Remaining memory slots:{Details.display_remaining(memory_1)} ")
 
+print("DEALLOCATING P1")
 memory_1.deallocate(p1)
 Details.display_memory(memory_1)
 print(f"Remaining memory slots:{Details.display_remaining(memory_1)} ")
+
+print("DEALLOCATING P2")
+memory_1.deallocate(p2)
+Details.display_memory(memory_1)
+print(f"Remaining memory slots:{Details.display_remaining(memory_1)} ")
+
+print("DEALLOCATING P3")
+memory_1.deallocate(p3)
+Details.display_memory(memory_1)
+print(f"Remaining memory slots:{Details.display_remaining(memory_1)} ")
+
+
+
 print("Done")
+
