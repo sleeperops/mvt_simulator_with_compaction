@@ -74,37 +74,3 @@ class Process:
         self.size = size
         self.start = start  # what part of the memory the process willbe inserted
 
-# For testing purposes
-      
-memory_1 = Memory(32, 0) # 0-31, !Make 32 a variable
-p1 = Process("A",4)
-p2 = Process("B", 10)
-p3 = Process("C", 10)
-
-memory_1.array[4] = 0
-
-memory_1.allocate(p1,0)
-memory_1.allocate(p2,5)
-memory_1.allocate(p3,16)
-
-memory_1.display_memory()
-print(f"Remaining memory slots:{memory_1.free_space} ")
-
-print("DEALLOCATING P1")
-memory_1.deallocate(p1)
-memory_1.display_memory()
-print(f"Remaining memory slots:{memory_1.free_space} ")
-
-print("DEALLOCATING P2")
-memory_1.deallocate(p2)
-memory_1.display_memory()
-print(f"Remaining memory slots:{memory_1.free_space} ")
-
-print("DEALLOCATING P3")
-memory_1.deallocate(p3)
-memory_1.display_memory()
-print(f"Remaining memory slots:{memory_1.free_space} ")
-
-
-print("Done")
-
